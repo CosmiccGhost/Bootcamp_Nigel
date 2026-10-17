@@ -20,5 +20,17 @@ public class Main {
 
         System.out.println("Now let's get a little more details.");
 
+        System.out.println("What is your principal");
+
+        double principal = scanner.nextDouble();
+
+        System.out.println("Whats the interest rate");
+
+        float rate = scanner.nextFloat();
+
+        System.out.println("How long is the term");
+
+        int term = scanner.nextInt();
+
     }
 }
