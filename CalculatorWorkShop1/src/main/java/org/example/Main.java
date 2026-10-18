@@ -1,36 +1,31 @@
 package org.example;
+import java.text.NumberFormat;
 import java.util.Scanner;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+    private static final int MONTHS = 12;
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Welcome to my F.F Calculator");
-        System.out.println("Could I Get a name");
+        int choice = 0;
+        boolean isRunning = true;
 
-        String name = scanner.nextLine();
 
-        System.out.println("Nice name");
-        System.out.println("Now could I get an age");
+        while (isRunning) {
+            System.out.println("*****************************");
+            System.out.println("Welcome to my F.F Calculator");
+            System.out.println("*****************************");
 
-        int age = scanner.nextInt();
+            System.out.println("1. Financial Calculator");
+            System.out.println("2. Future Value Calculator");
+            System.out.println("3. Exit");
+            System.out.println("******************************");
 
-        System.out.println("Great");
+            System.out.println("Enter your choice");
 
-        System.out.println("Now let's get a little more details.");
-
-        System.out.println("What is your principal");
-
-        double principal = scanner.nextDouble();
-
-        System.out.println("Whats the interest rate");
-
-        float rate = scanner.nextFloat();
-
-        System.out.println("How long is the term");
-
-        int term = scanner.nextInt();
-
+        }
     }
 }
+
