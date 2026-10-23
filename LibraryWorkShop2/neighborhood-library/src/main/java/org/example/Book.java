@@ -1,11 +1,12 @@
 package org.example;
 
 public class Book {
-public int id;
-public String isbn;
-public String title;
-public boolean isCheckedOut;
-public String checkedOutTo;
+ public int id;
+ public String isbn;
+ public String title;
+ public boolean isCheckedOut;
+ public String checkedOutTo;
+
 
  public Book(int id, String isbn, String title, boolean isCheckedOut, String checkedOutTo) {
   this.id = id;
@@ -55,17 +56,14 @@ public String checkedOutTo;
   this.id = id;
  }
 
- public void checkOut (String checkedOutTo){
+ public void checkOut(String checkedOutTo) {
  }
 
- public void checkIn(){
+ public void checkIn() {
 
  }
- String[] book =  new String[20];
 
 }
-
-
 
 
 
