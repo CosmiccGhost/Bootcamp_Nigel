@@ -6,7 +6,7 @@ public class Book {
  public String title;
  public boolean isCheckedOut;
  public String checkedOutTo;
-
+public String info;
 
  public Book(int id, String isbn, String title, boolean isCheckedOut, String checkedOutTo) {
   this.id = id;
@@ -15,7 +15,15 @@ public class Book {
   this.isCheckedOut = isCheckedOut;
   this.checkedOutTo = checkedOutTo;
  }
+@Override
+public String toString(){
 
+    return "ID: " + id +
+ ", ISBN: " + isbn +
+         ", Title: " + title +
+         ", Checked Out: " + isCheckedOut +
+         ", Checked Out To: " + checkedOutTo;
+}
  public String getCheckedOutTo() {
   return checkedOutTo;
  }
@@ -62,7 +70,6 @@ public class Book {
  public void checkIn() {
 
  }
-
 }
 
 
