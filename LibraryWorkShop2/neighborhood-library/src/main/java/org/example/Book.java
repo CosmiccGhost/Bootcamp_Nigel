@@ -17,7 +17,6 @@ public String info;
  }
 @Override
 public String toString(){
-
     return "ID: " + id +
  ", ISBN: " + isbn +
          ", Title: " + title +

@@ -5,46 +5,47 @@ import java.util.Scanner;
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
+    private static String menuLetter;
+
     public static void main(String[] args) throws InterruptedException {
 int number = 0;
-boolean loop = true;
 Scanner scanner = new Scanner(System.in);
 
 
         Book[] book =  new Book[20];
 
 
-        book[0] = new Book(10456, "Dracula", "Horror", true, "Bram Stoker");
+        book[0] = new Book(10456, "Dracula", "Horror", false, "Bram Stoker");
 
 
-        book[1] = new Book(23891, "Frankenstein", "Horror", true, "Mary Shelley");
+        book[1] = new Book(23891, "Frankenstein", "Horror", false, "Mary Shelley");
 
 
-        book[2] = new Book(37542, "The Shining", "Horror", true, "Stephen King");
+        book[2] = new Book(37542, "The Shining", "Horror", false, "Stephen King");
 
 
-        book[3] = new Book(48217, "It", "Horror", true, "James Carter");
+        book[3] = new Book(48217, "It", "Horror", false, "James Carter");
 
 
-        book[4] = new Book(59103, "Pet Sematary", "Horror", true, "Olivia Bennett");
+        book[4] = new Book(59103, "Pet Sematary", "Horror", false, "Olivia Bennett");
 
 
-        book[5] = new Book(62784, "Carrie", "Horror", true, "Daniel Brooks");
+        book[5] = new Book(62784, "Carrie", "Horror", false, "Daniel Brooks");
 
 
-        book[6] = new Book(71395, "Salem's Lot", "Horror", true, "Emily Parker");
+        book[6] = new Book(71395, "Salem's Lot", "Horror", false, "Emily Parker");
 
 
-        book[7] = new Book(84621, "Misery", "Horror", true, "Lucas Mitchell");
+        book[7] = new Book(84621, "Misery", "Horror", false, "Lucas Mitchell");
 
 
-        book[8] = new Book(95238, "The Exorcist", "Horror", true, "Sophia Turner");
+        book[8] = new Book(95238, "The Exorcist", "Horror", false, "Sophia Turner");
 
 
-        book[9] = new Book(16743, "Rosemary's Baby", "Horror", true, "Ethan Collins");
+        book[9] = new Book(16743, "Rosemary's Baby", "Horror", false, "Ethan Collins");
 
 
-        book[10] = new Book(28469, "The Haunting of Hill House", "Horror", true, "Ava Richardson");
+        book[10] = new Book(28469, "The Haunting of Hill House", "Horror", false, "Ava Richardson");
 
 
         book[11] = new Book(39651, "Hell House", "Horror", true, "Noah Foster");
@@ -101,21 +102,25 @@ Scanner scanner = new Scanner(System.in);
             System.out.println("Choose from our list bellow");
             Thread.sleep(2000);
 
-            System.out.println("1. View Available Categories ");
-            Thread.sleep(800);
 
-            System.out.println("2. Show Checked out Books ");
-            Thread.sleep(800);
+while(true){
+    System.out.println("1. View Available Categories ");
+    Thread.sleep(800);
 
-            System.out.println("3. Close Application");
-            Thread.sleep(800);
+    System.out.println("2. Show Checked out Books ");
+    Thread.sleep(800);
 
-            number = scanner.nextInt();
-            scanner.nextLine();
+    System.out.println("3. Close Application");
+    Thread.sleep(800);
+
+
+    number = scanner.nextInt();
+    scanner.nextLine();
 
         switch(number) {
 
                 case 1:
+
                         System.out.println("You chose! :" + " View Available Books ");
                         Thread.sleep(1500);
 
@@ -148,6 +153,68 @@ Scanner scanner = new Scanner(System.in);
 
                     System.out.println(book[10]); Thread.sleep(500);
 
+                    System.out.println("Would you like to check out one of the available books?");
+
+                    String answer = scanner.nextLine();
+
+                    if(answer.equalsIgnoreCase("Yes"))
+
+                        System.out.println("Great!");Thread.sleep(500);
+                    System.out.println("Which book would you like to checkout");Thread.sleep(500);
+
+                    System.out.println("Dracula");
+                    System.out.println("Frankenstein");
+                    System.out.println("The Shining");
+                    System.out.println("It");
+                    System.out.println("Pet Sematary");
+                    System.out.println("Carrie");
+                    System.out.println("Salem's Lot");
+                    System.out.println("Misery");
+                    System.out.println("The Exorcist");
+                    System.out.println("Rosemary's Baby");
+                    System.out.println("The Haunting of Hill House");
+
+                    String checkedOutBook = scanner.nextLine();
+
+                    if(checkedOutBook.equalsIgnoreCase("Dracula"));
+                    else if(checkedOutBook.equalsIgnoreCase("Frankenstein"));
+                    else if(checkedOutBook.equalsIgnoreCase("The Shining"));
+                    else if(checkedOutBook.equalsIgnoreCase("It"));
+                    else if(checkedOutBook.equalsIgnoreCase("Pet Sematary"));
+                    else if(checkedOutBook.equalsIgnoreCase("Carrie"));
+                    else if(checkedOutBook.equalsIgnoreCase("Salem's Lot"));
+                    else if(checkedOutBook.equalsIgnoreCase("Misery"));
+                    else if(checkedOutBook.equalsIgnoreCase("The Exorcist"));
+                    else if(checkedOutBook.equalsIgnoreCase("Rosemary's Baby"));
+                    else if(checkedOutBook.equalsIgnoreCase("The Haunting of Hill House"));
+
+     System.out.println("You chose " + checkedOutBook);
+
+    System.out.println("Type C to check out your book " + checkedOutBook);
+
+    String letter = scanner.nextLine();
+
+    if (letter.equalsIgnoreCase("C"))
+
+
+
+        System.out.println("You've checked out " + checkedOutBook);
+                    System.out.println("Press X to return to menu");
+                    
+if (letter.equalsIgnoreCase("X"))
+
+    System.out.println("Returning to menu"); Thread.sleep(2000);
+
+    letter = scanner.nextLine();
+
+    
+    
+
+
+                    break;
+                case 2:
+                        System.out.println("You chose! " + " Show Checked out Books ");
+
                     System.out.println(book[11]); Thread.sleep(500);
 
                     System.out.println(book[12]); Thread.sleep(500);
@@ -166,21 +233,17 @@ Scanner scanner = new Scanner(System.in);
 
                     System.out.println(book[19]); Thread.sleep(500);
 
-
-                        break;
-                case 2:
-                        System.out.println("You chose! " + " Show Checked out Books ");
-
-
                         break;
                 case 3:
-                        System.out.println("You chose!" + "To close Application");
+                        System.out.println("You chose! " + " To close Application");
+                        System.exit(0);
                         break;
 
 
             default: {
-                    System.out.println("Invalid choice" + "Try Again");
-                    break;
+                System.out.println("Invalid choice " + " Try Again");
+                break;
+            }
             }
         }
 
