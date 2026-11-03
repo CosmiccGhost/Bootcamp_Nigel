@@ -1,12 +1,12 @@
 package org.example;
 
-public class ItemList {
+public class Item {
     private int id;
     private String product;
-    private float price;
+    private double price;
     private String department;
 
-    public ItemList(String department, float price, String product, int id) {
+    public Item(String department, double price, String product, int id) {
         this.department = department;
         this.price = price;
         this.product = product;
@@ -29,11 +29,11 @@ public class ItemList {
         this.product = product;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
