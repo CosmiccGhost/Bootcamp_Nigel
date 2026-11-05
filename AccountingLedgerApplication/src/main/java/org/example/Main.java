@@ -3,22 +3,48 @@ package org.example;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
-
+import java.text.NumberFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 public class Main {
     public static void displayTransactions(List<Transaction> transactions)
     {
+        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
         for (Transaction transaction : transactions){
             System.out.println(
                     transaction.getDate() + " | " +
                     transaction.getTime() + " | " +
                             transaction.getDescription() + " | " +
                             transaction.getVendor() + " | " +
-                            transaction.getAmount()
-            );
+currencyFormatter.format(transaction.getAmount())            );
         }
     }
+
+    public static void addDeposit(Scanner scanner){
+
+
+        System.out.println("Enter deposit description:");
+        String description = scanner.nextLine();
+
+        System.out.println("Enter vendor/source:");
+        String vendor = scanner.nextLine();
+
+        System.out.println("Enter deposit amount:");
+        double amount = Double.parseDouble(scanner.nextLine());
+
+        LocalDateTime now = LocalDateTime.now();
+
+        String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+        String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        Transaction transaction = new Transaction(date, time, description, vendor, amount);
+
+        System.out.println("Deposit information collected successfully!");
+    }
+
     public static void main(String[] args) {
 
         FileManager.readTransactions();
@@ -41,8 +67,7 @@ switch(answer){
 
     case "D":
 
-
-        System.out.println("You chose Add Deposit");
+        addDeposit(scanner);
 
         break;
 
@@ -138,12 +163,6 @@ switch(answer){
 
     default:
         System.out.println("Invalid Choice");
-
-
-
-
-
-
 
            }
         }

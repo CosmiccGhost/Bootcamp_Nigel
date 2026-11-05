@@ -1,56 +1,77 @@
 package org.example;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.*;
 import java.util.Collections;
 import java.util.Comparator;
 
 public class FileManager {
-public static List<Transaction> readTransactions() {
-    List<Transaction> transactionList = new ArrayList<>();
+    public static List<Transaction> readTransactions() {
+        List<Transaction> transactionList = new ArrayList<>();
 
 
+        try {
+            FileReader fileReader = new FileReader("src/main/resources/transactions.csv");
 
-    try{
-        FileReader fileReader = new FileReader("src/main/resources/transactions.csv");
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
 
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String line = bufferedReader.readLine();
 
-String line = bufferedReader.readLine();
+            line = bufferedReader.readLine();
+            while (line != null) {
 
-line = bufferedReader.readLine();
-while (line != null){
+                String[] parts = line.split("\\|");
+                String date = parts[0];
+                String time = parts[1];
+                String description = parts[2];
+                String vendor = parts[3];
+                double amount = Double.parseDouble(parts[4]);
 
-    String[] parts = line.split("\\|");
-    String date = parts[0];
-    String time = parts[1];
-    String description = parts[2];
-    String vendor = parts[3];
-    double amount = Double.parseDouble(parts[4]);
+                Transaction transaction = new Transaction(date, time, description, vendor, amount);
 
-  Transaction transaction = new Transaction(date, time, description, vendor, amount);
+                transactionList.add(transaction);
 
-    transactionList.add(transaction);
-
-    line = bufferedReader.readLine();
+                line = bufferedReader.readLine();
 
 
-}
-        for (Transaction transaction : transactionList) {
-            System.out.println(transaction.getVendor() + " - " + transaction.getAmount());
+            }
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
 
-    } catch (Exception e) {
-        throw new RuntimeException(e);
+        Collections.sort(transactionList, Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+
+        return transactionList;
+
+
     }
 
-    Collections.sort(transactionList, Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
+    public static void saveTransaction(Transaction transaction) {
 
-    return transactionList;
+        try {
+            FileWriter fileWriter = new FileWriter("src/main/resources/transactions.csv", true);
+
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            bufferedWriter.write(
+                    transaction.getDate() + " | " +
+                            transaction.getTime() + " | " +
+                            transaction.getDescription() + " | " +
+                            transaction.getVendor() + " | " +
+                            transaction.getAmount());
+
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
 
 
-}
+        }
 
 
+    }
 }
