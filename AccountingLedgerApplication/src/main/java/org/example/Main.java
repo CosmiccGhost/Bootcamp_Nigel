@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        FileManager.readTransactions();
+
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Welcome to my Accounting Ledger Application\n ");
@@ -44,15 +46,73 @@ switch(answer){
 
 
 
-            System.out.println("A) Display all entries \n ");
+            System.out.println("A) All \n ");
 
-            System.out.println("D) Display only the entries that are deposits into the account \n ");
+            System.out.println("D) Deposits  \n ");
 
-            System.out.println("P) Display only the negative entries (or payments) \n ");
+            System.out.println("P) Payments) \n ");
 
-            System.out.println("R) Display only the negative entries (or payments) \n ");
+            System.out.println("R) Reports) \n ");
 
             answer = scanner.nextLine().trim().toUpperCase();
+
+            if(answer.equalsIgnoreCase("A")){
+                System.out.println("1");
+
+            } if ( (answer.equalsIgnoreCase("D")))  System.out.println("2"); {
+
+
+            } if (answer.equalsIgnoreCase("P")){
+                System.out.println("3");
+
+            }
+            if(answer.equalsIgnoreCase("R")){
+
+                System.out.println("1) Month To Date\n");
+                System.out.println("2) Previous Month\n");
+                System.out.println("3) Year To Date\n");
+                System.out.println("4) Previous Year\n");
+                System.out.println("5) Search by Vendor\n ");
+                System.out.println("0) Return to Ledger Page\n");
+                System.out.println("H) Home Page\n");
+
+
+                answer = scanner.nextLine().toUpperCase().trim();
+
+                if(answer.equalsIgnoreCase("1")){
+                    System.out.println("");
+
+
+                }
+                if(answer.equalsIgnoreCase("2")){
+                    System.out.println("");
+
+
+                }
+                if(answer.equalsIgnoreCase("3")){
+                    System.out.println("");
+
+
+                }
+                if(answer.equalsIgnoreCase("4")){
+                    System.out.println("");
+
+                }
+                if(answer.equalsIgnoreCase("5")){
+                    System.out.println("");
+
+                }
+                if(answer.equalsIgnoreCase("0")){
+                    System.out.println("");
+
+
+                }
+                if(answer.equalsIgnoreCase("H")){
+                    System.out.println("");
+
+                    
+                }
+            }
         break;
 
     case "X":
@@ -64,7 +124,6 @@ switch(answer){
 
     default:
         System.out.println("Invalid Choice");
-
 
 
 
