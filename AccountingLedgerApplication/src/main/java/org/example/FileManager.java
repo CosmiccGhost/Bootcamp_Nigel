@@ -2,8 +2,9 @@ package org.example;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class FileManager {
 public static List<Transaction> readTransactions() {
@@ -33,15 +34,22 @@ while (line != null){
     transactionList.add(transaction);
 
     line = bufferedReader.readLine();
-}
 
+
+}
+        for (Transaction transaction : transactionList) {
+            System.out.println(transaction.getVendor() + " - " + transaction.getAmount());
+        }
 
     } catch (Exception e) {
         throw new RuntimeException(e);
     }
 
+    Collections.sort(transactionList, Comparator.comparing(Transaction::getDate).thenComparing(Transaction::getTime).reversed());
 
     return transactionList;
+
+
 }
 
 

@@ -2,14 +2,14 @@ package org.example;
 
 public class Transaction {
     private String date;
-    private String timee;
+    private String time;
     private String description;
     private String vendor;
     private double amount;
 
-    public Transaction(String date, String timee, String description, String vendor, double amount) {
+    public Transaction(String date, String time, String description, String vendor, double amount) {
         this.date = date;
-        this.timee = timee;
+        this.time = time;
         this.description = description;
         this.vendor = vendor;
         this.amount = amount;
@@ -24,12 +24,12 @@ public class Transaction {
         this.date = date;
     }
 
-    public String getTimee() {
-        return timee;
+    public String getTime() {
+        return time;
     }
 
-    public void setTimee(String timee) {
-        this.timee = timee;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public String getDescription() {

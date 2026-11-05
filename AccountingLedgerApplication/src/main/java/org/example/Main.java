@@ -1,11 +1,24 @@
 package org.example;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+
 public class Main {
+    public static void displayTransactions(List<Transaction> transactions)
+    {
+        for (Transaction transaction : transactions){
+            System.out.println(
+                    transaction.getDate() + " | " +
+                    transaction.getTime() + " | " +
+                            transaction.getDescription() + " | " +
+                            transaction.getVendor() + " | " +
+                            transaction.getAmount()
+            );
+        }
+    }
     public static void main(String[] args) {
 
         FileManager.readTransactions();
@@ -57,7 +70,8 @@ switch(answer){
             answer = scanner.nextLine().trim().toUpperCase();
 
             if(answer.equalsIgnoreCase("A")){
-                System.out.println("1");
+                List<Transaction> transactions = FileManager.readTransactions();
+                displayTransactions(transactions);
 
             } if ( (answer.equalsIgnoreCase("D")))  System.out.println("2"); {
 
