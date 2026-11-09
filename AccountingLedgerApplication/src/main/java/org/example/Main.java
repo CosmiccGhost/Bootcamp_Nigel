@@ -1,29 +1,31 @@
 package org.example;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
 import java.text.NumberFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 public class Main {
-    public static void displayTransactions(List<Transaction> transactions)
-    {
+
+//formats - Display
+    public static void displayTransactions(List<Transaction> transactions) {
         NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(Locale.US);
-        for (Transaction transaction : transactions){
+        for (Transaction transaction : transactions) {
             System.out.println(
                     transaction.getDate() + " | " +
-                    transaction.getTime() + " | " +
+                            transaction.getTime() + " | " +
                             transaction.getDescription() + " | " +
                             transaction.getVendor() + " | " +
-currencyFormatter.format(transaction.getAmount())            );
+                            currencyFormatter.format(transaction.getAmount()));
         }
     }
 
-    public static void addDeposit(Scanner scanner){
-
+    public static void addDeposit(Scanner scanner) {
 
         System.out.println("Enter deposit description:");
         String description = scanner.nextLine();
@@ -42,129 +44,306 @@ currencyFormatter.format(transaction.getAmount())            );
 
         Transaction transaction = new Transaction(date, time, description, vendor, amount);
 
-        System.out.println("Deposit information collected successfully!");
+
+        try {
+            FileManager.saveTransaction(transaction);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("Deposit saved successfully!");
     }
 
+    public static void displayDeposits(List<Transaction> transactions) {
+
+        for (Transaction transaction : transactions) {
+
+            if (transaction.getAmount() > 0) {
+
+                System.out.println(
+                        transaction.getDate() + " | " +
+                                transaction.getTime() + " | " +
+                                transaction.getDescription() + " | " +
+                                transaction.getVendor() + " | " +
+                                NumberFormat.getCurrencyInstance(Locale.US) //
+                                        .format(transaction.getAmount())
+                );
+            }
+        }
+    }
+
+    public static void makePayment(Scanner scanner) {
+
+        System.out.println("Enter payment description:");
+        String description = scanner.nextLine();
+
+        System.out.println("Enter vendor:");
+        String vendor = scanner.nextLine();
+
+        System.out.println("Enter payment amount:");
+        double amount = Double.parseDouble(scanner.nextLine());
+
+        amount = -Math.abs(amount);
+
+        LocalDateTime now = LocalDateTime.now();
+
+        String date = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String time = now.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+
+        Transaction transaction = new Transaction(
+                date, time, description, vendor, amount);
+
+        try {
+            FileManager.saveTransaction(transaction);
+
+            System.out.println("Payment Saved Successfully");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void displayPayments(List<Transaction> transactions) {
+
+        for (Transaction transaction : transactions) {
+
+            if (transaction.getAmount() < 0) {
+
+                System.out.println(
+                        transaction.getDate() + " | " +
+                                transaction.getTime() + " | " +
+                                transaction.getDescription() + " | " +
+                                transaction.getVendor() + " | " +
+                                NumberFormat.getCurrencyInstance(Locale.US)
+                                        .format(transaction.getAmount())
+                );
+            }
+        }
+    }
+//---------------------------------------------------------------------------------------------------------------------
+    public static void monthToDate(List<Transaction> transactions) {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate firstDay = today.withDayOfMonth(1);
+
+        List<Transaction> results = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+
+            LocalDate transactionDate =
+                    LocalDate.parse(transaction.getDate().trim());
+
+            if (!transactionDate.isBefore(firstDay)
+                    && !transactionDate.isAfter(today)) {
+
+                results.add(transaction);
+            }
+        }
+
+        displayTransactions(results);
+    }
+
+    public static void previousMonth(List<Transaction> transactions) {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate previousMonth = today.minusMonths(1);
+
+        LocalDate firstDay = previousMonth.withDayOfMonth(1);
+
+        LocalDate lastDay = previousMonth.withDayOfMonth(
+                previousMonth.lengthOfMonth()
+        );
+
+        List<Transaction> results = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+
+            LocalDate transactionDate =
+                    LocalDate.parse(transaction.getDate().trim());
+
+            if (!transactionDate.isBefore(firstDay)
+                    && !transactionDate.isAfter(lastDay)) {
+
+                results.add(transaction);
+            }
+        }
+
+        displayTransactions(results);
+    }
+
+    public static void yearToDate(List<Transaction> transactions) {
+        LocalDate today = LocalDate.now();
+        LocalDate firstDay = today.withDayOfYear(1);
+
+        List<Transaction> results = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate =
+                    LocalDate.parse(transaction.getDate().trim());
+
+            if (!transactionDate.isBefore(firstDay)
+                    && !transactionDate.isAfter(today)) {
+                results.add(transaction);
+            }
+        }
+
+        displayTransactions(results);
+    }
+
+    public static void previousYear(List<Transaction> transactions) {
+        LocalDate today = LocalDate.now();
+
+        LocalDate firstDay = LocalDate.of(today.getYear() - 1, 1, 1);
+        LocalDate lastDay = LocalDate.of(today.getYear() - 1, 12, 31);
+
+        List<Transaction> results = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            LocalDate transactionDate =
+                    LocalDate.parse(transaction.getDate().trim());
+
+            if (!transactionDate.isBefore(firstDay)
+                    && !transactionDate.isAfter(lastDay)) {
+                results.add(transaction);
+            }
+        }
+
+        displayTransactions(results);
+    }
+
+    public static void searchByVendor(List<Transaction> transactions, String vendor) {
+        List<Transaction> results = new ArrayList<>();
+
+        for (Transaction transaction : transactions) {
+            if (transaction.getVendor().equalsIgnoreCase(vendor.trim())) {
+                results.add(transaction);
+            }
+        }
+
+        displayTransactions(results);
+    }
+
+//----------------------------------------------------------------------------------------------------------------------
     public static void main(String[] args) {
 
         FileManager.readTransactions();
 
         Scanner scanner = new Scanner(System.in);
-
+        System.out.println("--------------------------------------------------");
         System.out.println("Welcome to my Accounting Ledger Application\n ");
 
         System.out.println("Choose from the list bellow to get started \n");
+        System.out.println("--------------------------------------------------");
 
-
-        while(true){
+        while (true) {
             System.out.println("D) Add Deposit");
             System.out.println("P) Make Payment(Debit)");
             System.out.println("L) Ledger");
             System.out.println("X) Exit");
-String answer = scanner.nextLine().trim().toUpperCase();
+            String answer = scanner.nextLine().trim().toUpperCase();
 
-switch(answer){
+            switch (answer) {
 
-    case "D":
+                case "D":
+                    addDeposit(scanner);
+                    break;
 
-        addDeposit(scanner);
+                case "P":
+                    makePayment(scanner);
+                    break;
 
-        break;
+                case "L": {
 
+                    boolean goHome = false;
 
-    case "P":
-        System.out.println("You chose Make Payment");
-        break;
-
-
-
-        case "L":
-            System.out.println("You chose Ledger\n");
-            System.out.println("Chose one of the options bellow\n");
-
-
-
-            System.out.println("A) All \n ");
-
-            System.out.println("D) Deposits  \n ");
-
-            System.out.println("P) Payments) \n ");
-
-            System.out.println("R) Reports) \n ");
-
-            answer = scanner.nextLine().trim().toUpperCase();
-
-            if(answer.equalsIgnoreCase("A")){
-                List<Transaction> transactions = FileManager.readTransactions();
-                displayTransactions(transactions);
-
-            } if ( (answer.equalsIgnoreCase("D")))  System.out.println("2"); {
+                    // Ledger menu loop
+                    while (!goHome) {
+                        System.out.println("----------------------------");
+                        System.out.println("You chose Ledger\n");
+                        System.out.println("Choose one of the options below");
+                        System.out.println("----------------------------");
 
 
-            } if (answer.equalsIgnoreCase("P")){
-                System.out.println("3");
+                        System.out.println("A) All");
+                        System.out.println("D) Deposits");
+                        System.out.println("P) Payments");
+                        System.out.println("R) Reports");
 
+                        answer = scanner.nextLine().trim().toUpperCase();
+
+                        List<Transaction> transactions = FileManager.readTransactions();
+
+                        if (answer.equals("A")) {
+                            displayTransactions(transactions);
+
+                        } else if (answer.equals("D")) {
+                            displayDeposits(transactions);
+
+                        } else if (answer.equals("P")) {
+                            displayPayments(transactions);
+
+                        } else if (answer.equals("R")) {
+
+                            // Reports menu loop
+                            while (true) {
+                                System.out.println("----------------------------");
+                                System.out.println("1) Month To Date");
+                                System.out.println("2) Previous Month");
+                                System.out.println("3) Year To Date");
+                                System.out.println("4) Previous Year");
+                                System.out.println("5) Search by Vendor");
+                                System.out.println("0) Return to Ledger Page");
+                                System.out.println("H) Home Page");
+                                System.out.println("----------------------------");
+                                answer = scanner.nextLine().trim().toUpperCase();
+
+                                if (answer.equals("0")) {
+                                    break;
+
+                                } else if (answer.equals("H")) {
+                                    goHome = true;
+                                    break;
+
+                                } else if (answer.equals("1")) {
+                                    monthToDate(FileManager.readTransactions());
+
+
+                                } else if (answer.equals("2")) {
+                                    previousMonth(FileManager.readTransactions());
+
+
+                                } else if (answer.equals("3")) {
+                                    yearToDate(FileManager.readTransactions());
+
+                                } else if (answer.equals("4")) {
+                                    previousYear(FileManager.readTransactions());
+
+
+                                } else if (answer.equals("5")) {
+                                    System.out.print("Enter vendor name: ");
+                                    String vendor = scanner.nextLine();
+
+                                    searchByVendor(FileManager.readTransactions(), vendor);
+                                } else {
+                                    System.out.println("Invalid Choice");
+                                }
+                            }
+                        } else {
+                            System.out.println("Invalid Choice");
+                        }
+                    }
+
+                    break;
+                }
+                case "X":
+                    System.out.println("Exiting Program");
+                    System.exit(0);
+                    break;
+
+                default:
+                    System.out.println("Invalid Choice");
             }
-            if(answer.equalsIgnoreCase("R")){
-
-                System.out.println("1) Month To Date\n");
-                System.out.println("2) Previous Month\n");
-                System.out.println("3) Year To Date\n");
-                System.out.println("4) Previous Year\n");
-                System.out.println("5) Search by Vendor\n ");
-                System.out.println("0) Return to Ledger Page\n");
-                System.out.println("H) Home Page\n");
-
-
-                answer = scanner.nextLine().toUpperCase().trim();
-
-                if(answer.equalsIgnoreCase("1")){
-                    System.out.println("");
-
-
-                }
-                if(answer.equalsIgnoreCase("2")){
-                    System.out.println("");
-
-
-                }
-                if(answer.equalsIgnoreCase("3")){
-                    System.out.println("");
-
-
-                }
-                if(answer.equalsIgnoreCase("4")){
-                    System.out.println("");
-
-                }
-                if(answer.equalsIgnoreCase("5")){
-                    System.out.println("");
-
-                }
-                if(answer.equalsIgnoreCase("0")){
-                    System.out.println("");
-
-
-                }
-                if(answer.equalsIgnoreCase("H")){
-                    System.out.println("");
-
-                    
-                }
-            }
-        break;
-
-    case "X":
-
-
-        System.out.println("You chose to Exit");
-        System.exit( 0);
-        break;
-
-    default:
-        System.out.println("Invalid Choice");
-
-           }
         }
     }
 }
